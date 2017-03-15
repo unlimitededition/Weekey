@@ -35,7 +35,6 @@
 					</StackPanel>
 
 					<Panel>
-						<string ux:Property="Status" />
 						<Match Value="{Property Status}">	
 							<Case String="0"><Rectangle Color="Traffic.G" Aspect="1" BoxSizing="FillAspect" /></Case> <!-- While - Change attributes -->
 							<Case String="1"><Rectangle Color="Traffic.O" Aspect="1" BoxSizing="FillAspect" /></Case>
