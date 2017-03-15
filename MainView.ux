@@ -1,0 +1,37 @@
+<App>
+	<!-- Include -->
+	<ux:Include File="color.ux" />
+
+	<!-- JavaScript -->
+	<JavaScript File="data/scr/updateTasks.js" />
+	<JavaScript File="main.js" />
+
+	<JavaScript>
+	</JavaScript>
+
+	<!-- Components -->
+
+	<!-- Main Application -->
+	<Font ux:Global="Main" File="data/fnt/BebasNeueRegular.otf" />
+
+	<StatusBarBackground Dock="Top" />
+
+	<DockPanel ux:Name="mainView" Background="#183A6F">
+		<ScrollView ux:Name="mainViewScroller" SnapMinTransform="false" SnapMaxTransform="false">
+			<ScrollViewMotion GotoEasing="Linear" GotoDuration="0.5"/>
+			<DockPanel>
+				<createNewTab ux:Name="newTopTab" Dock="Top" Period="{Period}" newTabText="{newTabText}" />
+				
+				<Grid Columns="1*, Auto, 1*" Dock="Top" Height="35" Background="#fff">
+					<Rectangle Height="2" Width="80%" Alignment="Center" Color="#ccc" />
+					<Text Font="Main" Alignment="Center" Color="#ccc" FontSize="20" Value="{newTabText}"></Text>
+					<Rectangle Height="2" Width="80%" Alignment="Center" Color="#ccc" />
+				</Grid>
+
+				<taskCard />
+
+				<settings Dock="Bottom"/>
+			</DockPanel>
+		</ScrollView>
+	</DockPanel>
+</App>

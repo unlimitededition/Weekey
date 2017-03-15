@@ -1,0 +1,11 @@
+<Panel>
+	<float4 ux:Global="Theme.1" ux:Value="#14FFB5"/> <!-- Components -->
+	<float4 ux:Global="Theme.2" ux:Value="#5E2E91"/> <!-- Components -->
+	<float4 ux:Global="Theme.3" ux:Value="#FFFFFF"/> <!-- Components -->
+	<float4 ux:Global="Theme.4" ux:Value="#999999"/> <!-- Components -->
+	<float4 ux:Global="Theme.5" ux:Value="#9F83BD"/> <!-- Components -->
+
+	<float4 ux:Global="Traffic.G" ux:Value="##009946"/> <!-- Components -->
+	<float4 ux:Global="Traffic.O" ux:Value="#fba74b"/> <!-- Components -->
+	<float4 ux:Global="Traffic.R" ux:Value="#0a7e49"/> <!-- Components -->
+</Panel>

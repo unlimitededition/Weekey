@@ -1,0 +1,72 @@
+<Panel ux:Class="createNewTab" ClipToBounds="true">
+
+	<int ux:Property="Period" />
+	<string ux:Property="newTabText" />
+
+	<Panel ux:Name="createNew" Background="#fff" Dock="Top" Height="0" MinHeight="0" Padding="12">
+		<StackPanel>
+			<Grid Columns="1*,Auto">
+				<Panel>
+					<Rectangle Width="2" Alignment="Left" Color="#5276CA" />
+					<TextInput ux:Name="newTaskTitle" Font="Main" PlaceholderText="New Task" PlaceholderColor="#ccc" TextColor="#333" FontSize="28" MinHeight="65" Alignment="Left" Margin="0,0,8,0" Padding="8,0,0,0" TextWrapping="Wrap" MaxLength="24" Value="{taskInput}" />
+			    </Panel>
+			    <Circle  Width="100" Height="100" Color="#ccc" Clicked="{addDay}">
+			    	<DropShadow ux:Name="dropShadow" Color="#999" Distance="4" Size="4" Angle="135" />
+				    <Grid Columns="Auto, Auto,Auto" Alignment="Center" >
+				    	<Image Width="20" Alignment="Top" File="data/gui/arrow_b.png" StretchMode="Uniform" Opacity="0.5" />
+						<Text Font="Main" Color="#5276CA" FontSize="36" Value="{currentDay}"></Text>
+						<Text Font="Main" Color="#5276CA" FontSize="16">days</Text>
+					</Grid>
+				</Circle>
+			</Grid>
+			<Grid Columns="1*, 1*" Margin="0,16,0,0">
+				<Selection Value="{Property Period}" MaxCount="1" MinCount="1" />
+				<Panel ux:Name="tmpPanel" Height="35" Color="#fff">
+					<Selectable Value="0" />
+					<Rectangle Height="2" Alignment="Top" Color="#333" />
+					<Rectangle Height="2" Alignment="Bottom" Color="#333" />
+					<Rectangle Width="1" Alignment="Right" Color="#333" />
+					<Text ux:Name="tmpText" Font="Main" Alignment="Center" Color="#5276CA" FontSize="18">Temporary</Text>
+					<WhileSelected>
+						<Change tmpText.Color="#fff" Duration="0.15"/>
+						<Change tmpPanel.Color="#5276CA" Duration="0.15" />
+					</WhileSelected>
+					<Tapped><ToggleSelection /></Tapped>
+				</Panel>
+				<Panel ux:Name="wkPanel" Height="35">
+					<Selectable Value="1" />
+					<Rectangle Height="2" Alignment="Top" Color="#333" />
+					<Rectangle Height="2" Alignment="Bottom" Color="#333" />
+					<Rectangle Width="1" Alignment="Left" Color="#333" />
+					<Text  ux:Name="wkText" Font="Main" Alignment="Center" Color="#5276CA" FontSize="18">Weekly</Text>
+					<WhileSelected>
+						<Change wkText.Color="#fff" Duration="0.15" />
+						<Change wkPanel.Color="#5276CA" Duration="0.15" />
+					</WhileSelected>
+					<Tapped><ToggleSelection /></Tapped>
+				</Panel>
+			</Grid>
+			<Panel Height="35" Clicked="{createTask}" >
+				<Clicked><Change reloader.IsLoading.Value="false" DurationBack="0.5" /></Clicked>
+				<Text Font="Main" Alignment="Center" Color="#5276CA" FontSize="18">Create</Text>
+				<Rectangle Height="2" Alignment="Bottom" Color="#333" />
+			</Panel>
+		</StackPanel>
+	</Panel>
+
+	<ScrollingAnimation Range="SnapMin">
+		<Change createNew.Height="300" Duration="2" DurationBack="0.3" />
+	</ScrollingAnimation>
+
+	<PullToReload ux:Name="reloader" IsLoading="{IsLoading}">
+		<State ux:Binding="Pulling">
+		</State>
+		<State ux:Binding="PulledPastThreshold">
+			<Change this.newTabText="Create New Task" />
+		</State>
+		<State ux:Binding="Loading">
+			<Change createNew.MinHeight="200" Duration="0" DurationBack="0.3" Easing="CircularIn" />
+			<Change this.newTabText="Create New Task" />
+		</State>
+	</PullToReload>
+</Panel>

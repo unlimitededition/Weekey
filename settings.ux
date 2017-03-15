@@ -1,0 +1,27 @@
+<Panel ux:Class="settings" ux:Name="settings" Background="#183A6F" Alignment="Bottom"  Height="50" MinHeight="0" ClipToBounds="true">
+	<DockPanel>
+		<Rectangle Dock="Top" Color="#FFF" Height="2" Width="150%" ><DropShadow Color="Black" Distance="8" Size="8" Angle="45" /></Rectangle>
+		<StackPanel Dock="Bottom" Padding="12" ItemSpacing="12">
+		<Panel>
+			<Text Alignment="Left" Color="#fff" FontSize="20" >Settings</Text>
+		</Panel>
+		<Panel>
+			<Text Alignment="Left" Color="#fff" FontSize="20" >View Intro</Text>
+		</Panel>
+		<Panel Height="25" Clicked="{delTasks}">
+			<Text Alignment="Left" Color="#fff" FontSize="20" >Clear Tasks</Text>
+			<Rectangle Alignment="Right" Color="#183A6F" Aspect="1" BoxSizing="FillAspect" ><Stroke Width="2" Color="White" /></Rectangle>
+		</Panel>
+		<Panel>
+			<Clicked>
+				<Toggle Target="settingsOpen" />
+				<BringIntoView TargetNode="settings" Delay="0.25" />
+			</Clicked>
+			<WhileTrue ux:Name="settingsOpen" Value="false" >
+				<Change settings.MinHeight="250" Duration="0.2" />
+			</WhileTrue>
+			<Text Font="Main" Alignment="BottomCenter" Color="#fff" FontSize="20" >Settings</Text>
+		</Panel>
+		</StackPanel>
+	</DockPanel>
+</Panel>

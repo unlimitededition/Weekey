@@ -1,0 +1,16 @@
+{
+  "RootNamespace":"",
+  "Packages": [
+  	"Fuse",
+  	"FuseJS"
+  ],
+  "Includes": [
+    "*",
+    "HomeScreen.uno",
+    "data/fnt/*.otf",
+    "data/fnt/*.ttf",
+    "data/gui/*.png:Bundle",
+    "data/scr/*.js:Bundle",
+    "data/dat/theme.json:Bundle"
+  ]
+}
