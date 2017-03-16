@@ -1,4 +1,4 @@
-<Panel ux:Class="taskCard">
+<Panel>
 	<StackPanel ux:Name="taskFields" Background="White" Padding="0,4,0,0">
 		<Each Items="{tasks}">
 			<Panel>
@@ -24,46 +24,33 @@
 						<Rectangle Height="2" Color="Black" />
 						<Grid ColumnCount="{days}" Height="15">
 							<Each Items="{dayList}">
-								<Match Value="{}">
-									<Case String="Inco"><taskStat taskColour="White"/></Case>
-									<Case String="Comp"><taskStat taskColour="Traffic.G"/></Case>
-									<Case String="Miss"><taskStat taskColour="Traffic.R"/></Case>
-								</Match>
+								<Circle ux:Name="day_circ" Alignment="Center" Width="50%" Height="50%" Color="#fff" ><Stroke Width="1" Color="Black" /></Circle>
+
+								<WhileString Source="{}" Value="Inco">	
+									<Change Target="day_circ.Color" Value="Traffic.G" />
+								</WhileString>
+								<WhileString Source="{}" Value="Comp">	
+									<Change Target="day_circ.Color" Value="Traffic.O" />
+								</WhileString>
+								<WhileString Source="{}" Value="Miss">	
+									<Change Target="day_circ.Color" Value="Traffic.R" />
+								</WhileString>
 							</Each>
 						</Grid>
 						<Rectangle Height="2" Color="Black" />
 					</StackPanel>
 
-					<Panel>
-						<Match Value="{Property Status}">	
-							<Case String="0"><Rectangle Color="Traffic.G" Aspect="1" BoxSizing="FillAspect" /></Case> <!-- While - Change attributes -->
-							<Case String="1"><Rectangle Color="Traffic.O" Aspect="1" BoxSizing="FillAspect" /></Case>
-							<Case String="2"><Rectangle Color="Traffic.R" Aspect="1" BoxSizing="FillAspect" /></Case>
-						</Match>
+					<Panel Width="65" Height="65">
+						<Rectangle ux:Name="tr_sq" Color="Traffic.G" Aspect="1" BoxSizing="FillAspect" />
+						<Circle ux:Name="tr_circ" Alignment="Center" Width="35%" Height="35%" Color="#fff" ><Stroke Width="2" Color="White" /></Circle>
+
+						<WhileTrue Value="{comp}">	
+							<Change Target="tr_circ.Color" Value="Traffic.G" />
+						</WhileTrue>
 					</Panel>
 
-					<Panel>
-						<tr_circle Complete="{comp}"/>
-					</Panel>
 				</Grid>
 			</Panel>
 		</Each>
 	</StackPanel>
-
-
-	
-
-	<Panel ux:Class="tr_circle">
-		<bool ux:Property="Complete" />
-		<Match Value="{Property Complete}" >	
-			<Case Bool="false"><Circle Alignment="Center" Width="35%" Height="35%" Color="#fff" ><Stroke Width="2" Color="White" /></Circle></Case>
-			<Case Bool="true"><Circle Alignment="Center" Width="35%" Height="35%" Color="Traffic.G" ><Stroke Width="2" Color="White" /></Circle></Case>
-		</Match>
-	</Panel>
-
-	<Panel ux:Class="taskStat">
-		<float4 ux:Property="taskColour" />
-		<Circle Alignment="Center" Width="50%" Height="50%" Color="#fff" ><Stroke Width="1" Color="Black" /></Circle>
-	</Panel>
-
 </Panel>

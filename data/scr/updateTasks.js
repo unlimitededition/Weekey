@@ -30,11 +30,26 @@ UpdateTask.taskUpdate = function(event) //Updates Urgency, Expiration
 	return event;
 }
 
-UpdateTask.complete = function(event)
+UpdateTask.complete = function(event) //TODO: Update daylist Array
 {
 	event.data.urgent = 0;
 	event.data.comp = true;
 	console.log("Task Completed: " + JSON.stringify(event));
+
+	for(var i = 0; i < event.data.dayList.length; i++)
+	{
+		if(event.data.dayList[i] == "Inco" && !event.data.comp)
+		{
+			event.data.comp = true;
+			event.data.dayList[i] = "Comp";
+			break;
+		}
+	}
+}
+
+UpdateTask.resetDay = function(event)
+{
+	event.data.comp = false
 }
 
 UpdateTask.arrangeTasks = function()
