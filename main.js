@@ -1,98 +1,42 @@
-var loaded = false;
-var evArr = []; //Add to Save Function
-
 var Storage = require("FuseJS/Storage");
 var Observable = require("FuseJS/Observable");
-var nt = require("data/scr/newTask.js");
-var up = require("data/scr/updateTasks.js");
 var set = require("data/scr/settings.js");
 
-var tasks = Observable();
-var taskInput = Observable("");
-var currentDay = Observable(1);
-var Period = Observable(0);
+var loaded = false;
 var newTabText = Observable("Pull to Create New");
-var taskFile = "tasks.json";
 
 if(!loaded)
 {
-	readTasks();
+	readData("tasks.json");
 
 	loaded = true;
 }
 
-function readTasks()
+function readData(dataInLoc) // TODO: Update to modular function... (A-Sync)
 {
-	Storage.read(taskFile).then(function(content)
+	Storage.read(dataInLoc).then(function(content)
 	{
-		var load = JSON.parse(content);
-		for(var i = 0; i < load.length; i++)
-		{
-			evArr[i] = load[i];
-			tasks.add(load[i])
-		}
-		console.log("Tasks Loaded!");
+		return content;
+		console.log("Data Loaded: " + dataInLoc);
 	}, function(error) {
-		console.log("Couldn't Read Tasks File!");
+		console.log("Couldn't Read Data: " + dataInLoc);
 	});
 }
 
-function addDay()
-{
-	currentDay.value = nt.add_Days(currentDay.value);
-}
-
-function createTask()
-{
-	if(taskInput.value == "")
-	{
-		return;
-	}	
-	var newEvent = nt.create_Event(taskInput.value, currentDay.value, Period.value);
-
-	nt.reset_Days();
-	currentDay.value = nt.reset_Days();
-	taskInput.value = "";
-	evArr.push(newEvent);
-
-	tasks.add(newEvent);
-
-    saveToDisk();
-}
-
-function saveToDisk()
-{
-	Storage.write(taskFile, JSON.stringify(evArr)).then(function(succeeded)
-	{
-        if(succeeded)
-        {
-            console.log("Successfully wrote to file");
+function saveData(dataOutLoc, dataOut){
+	Storage.write(dataOut, dataOut).then(function(succeeded){
+        if(succeeded){
+            console.log("Successfully Wrote Data: " + dataOutLoc);
         } else {
-            console.log("Couldn't write to file.");
+            console.log("Couldn Not Write Data: " + dataOutLoc);
         }
 	});
 }
 
-function taskComplete(task)
-{
-	up.complete(task);
-	saveToDisk();
-}
+function animRotation(){ //TODO: Tick Function
 
-function delTasks()
-{
-	Storage.deleteSync(taskFile);
 }
 
 module.exports = {
-
-	taskComplete: taskComplete,
-	delTasks: delTasks,
-	tasks: tasks,
-	newTabText: newTabText,
-	Period: Period,
-	taskInput: taskInput,
-	createTask: createTask,
-	currentDay: currentDay,
-	addDay: addDay
+	newTabText: newTabText
 }

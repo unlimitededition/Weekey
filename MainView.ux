@@ -3,16 +3,13 @@
 	<ux:Include File="color.ux" />
 
 	<!-- JavaScript -->
-	<JavaScript File="data/scr/updateTasks.js" />
 	<JavaScript File="main.js" />
+	<JavaScript File="data/scr/tasks.js" />
 
 	<JavaScript>
 	</JavaScript>
-
-	<!-- Components -->
-
 	<!-- Main Application -->
-	<Font ux:Global="Main" File="data/fnt/BebasNeueRegular.otf" />
+	<Font ux:Global="Main" File="data/fnt/Brandon_light.otf" />
 
 	<StatusBarBackground Dock="Top" />
 
@@ -22,16 +19,38 @@
 			<DockPanel>
 				<createNewTab ux:Name="newTopTab" Dock="Top" Period="{Period}" newTabText="{newTabText}" />
 				
-				<Grid Columns="1*, Auto, 1*" Dock="Top" Height="35" Background="#fff">
-					<Rectangle Height="2" Width="80%" Alignment="Center" Color="#ccc" />
-					<Text Font="Main" Alignment="Center" Color="#ccc" FontSize="20" Value="{newTabText}"></Text>
-					<Rectangle Height="2" Width="80%" Alignment="Center" Color="#ccc" />
-				</Grid>
+				<Panel Dock="Top">
+					<Grid Columns="1*, Auto, 1*"  Height="35">
+						<Rectangle Height="2" Width="80%" Alignment="Center" Color="#ccc" />
+						<Text Font="Main" Alignment="Center" Color="#ccc" FontSize="22" Value="{newTabText}"></Text>
+						<Rectangle Height="2" Width="80%" Alignment="Center" Color="#ccc" />
+					</Grid>
+					<Rectangle Color="White" Opacity="0.65"/>
+				</Panel>
 
-				<taskCard />
+				<taskCards />
 
 				<settings Dock="Bottom"/>
 			</DockPanel>
 		</ScrollView>
+		<!-- <Circle Width="500%" Height="500%" X="-400%" Y="-262%" ><Stroke Width="2" Color="White"><SolidColor Color="#FFF" /></Stroke></Circle> -->
+		<Panel Width="1000" Height="1000" X="-160%" Y="-50%" Opacity="0.35">
+			<Rotation Degrees="20"/>
+			<Grid ColumnCount="2" RowCount="2">
+				<bg_ring><Rotation Degrees="270"/></bg_ring>
+				<bg_ring><Rotation Degrees="0"/></bg_ring>
+				<bg_ring><Rotation Degrees="180"/></bg_ring>
+				<bg_ring><Rotation Degrees="90"/></bg_ring>
+			</Grid>
+			<Panel ux:Class="bg_ring">
+				<Image File="data/img/weekey_circ-02.png" Aspect="1"/>
+			</Panel>
+		</Panel>
+		<Rectangle Color="Green">
+	    <LinearGradient AngleDegrees="90">
+	        <GradientStop Offset="0" Color="Theme1" />
+	        <GradientStop Offset="1" Color="Theme5" />
+	    </LinearGradient>
+	</Rectangle>
 	</DockPanel>
 </App>

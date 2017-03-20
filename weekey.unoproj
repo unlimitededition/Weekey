@@ -8,6 +8,7 @@
     "*",
     "HomeScreen.uno",
     "data/fnt/*.ttf",
+    "data/fnt/*.otf",
     "data/gui/*.png:Bundle",
     "data/scr/*.js:Bundle",
     "data/dat/theme.json:Bundle"

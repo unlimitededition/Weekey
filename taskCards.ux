@@ -1,0 +1,36 @@
+<Panel ux:Class="taskCards">
+	<StackPanel ux:Name="taskFields" Padding="12,0,12,0">
+		<Each Items="{taskList}">
+			<Panel Height="65" Margin="0,8,0,8">
+				<DoubleClicked>
+					<Callback Handler="{completeTask}"/>
+				</DoubleClicked>
+
+				<DockPanel>
+					<Rectangle ux:Name="trafficLight" Dock="Left" Color="White" Width="4">
+						<WhileString Value="{urgent}" Equals="0"><Change trafficLight.Color="TrafficG" /></WhileString>
+						<WhileString Value="{urgent}" Equals="1"><Change trafficLight.Color="TrafficO" /></WhileString>
+						<WhileString Value="{urgent}" Equals="2"><Change trafficLight.Color="TrafficR" /></WhileString>
+					</Rectangle>
+					<Rectangle Color="White" Opacity="0.45">
+						<Text Alignment="VerticalCenter" Font="Main" Value="{task}" FontSize="24" Margin="8" />
+
+					</Rectangle>
+					<Panel Dock="Right" Width="8" Margin="4,0,0,0" >
+						<Grid ColumnCount="{days}">
+							<Each Items="{dayList}">
+								<Rectangle Color="TrafficG"/>
+							</Each>
+						</Grid>
+					</Panel>
+					<Image Dock="Right" File="data/gui/taskCardHole.png" Opacity="0.45" Aspect="1" >
+						<Circle ux:Name="compCirc" Height="65%" Width="65%" Color="White" Opacity="0"><Stroke Color="White" Width="2"/></Circle>
+						<WhileTrue Value="{complete}" >
+							<Set Target="compCirc.Opacity" Value="0.9"/>
+						</WhileTrue>
+					</Image>
+				</DockPanel>
+			</Panel>
+		</Each>
+	</StackPanel>
+</Panel>
