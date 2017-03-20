@@ -1,55 +1,35 @@
-<Panel>
-	<StackPanel ux:Name="taskFields" Background="White" Padding="0,4,0,0">
+<Panel ux:Class="taskCard" >
+	<StackPanel ux:Name="taskFields" Background="Gray" Padding="12,16,12,12">
 		<Each Items="{tasks}">
-			<Panel>
+			<Panel Height="65" Margin="0,0,0,12">
 				<DoubleClicked>
-					<Callback Handler="{taskComplete}"/>
+						<!-- <Callback Handler="{taskComplete}"/> -->
+						<Toggle Target="compCirc_on" When="Forward" IsActive="{incomplete}"/>
+						<Toggle Target="{incomplete}" When="Forward" />
 				</DoubleClicked>
 
-				<Panel Alignment="Left" Margin="32,0,0,0" Height="10" Width="65">
-					<Text Font="Main" ux:Name="durText" Alignment="BottomCenter" Color="#333" FontSize="14" Value="{duration}" />
-					<Rectangle Color="White" />
-				</Panel>
-				<Grid Columns="2, 1*, Auto" Padding="12,0,12,12">
-					<Rectangle Color="Black" />
-					<StackPanel>
-						<Grid Columns="18, 65, 1*" Height="2">
-							<Rectangle Color="Black" />
-							<Rectangle Color="White" />
-							<Rectangle Color="Black" />
-						</Grid>
-						<Panel>
-							<Text Font="Main" Value="{task}" FontSize="24" Margin="8" />
-						</Panel>
-						<Rectangle Height="2" Color="Black" />
-						<Grid ColumnCount="{days}" Height="15">
+				<DockPanel>
+					<DockPanel>
+						<Text Alignment="VerticalCenter" Font="Main" Value="{task}" FontSize="24" Margin="8" />
+						<Rectangle Color="Traffic.G" Opacity="0.2"/>
+						<Image Dock="Right" Color="Traffic.G" File="data/gui/taskCardHole.png" Opacity="0.2" Aspect="1" >
+							<Circle ux:Name="compCirc" Height="75%" Width="75%" Color="Traffic.G" Opacity="0" />
+							<WhileTrue ux:Name="compCirc_on" >
+								<Set Target="compCirc.Opacity" Value="0.8"/>
+							</WhileTrue>
+							<Match Value="{incomplete}">
+								<Case Bool="false"><Circle ux:Name="compCirc" Height="75%" Width="75%" Color="Traffic.G" Opacity="0.8" /></Case>
+							</Match>
+						</Image>
+					</DockPanel>
+					<Panel Dock="Bottom" Height="8" Margin="0,4,0,0" >
+						<Grid ColumnCount="{days}">
 							<Each Items="{dayList}">
-								<Circle ux:Name="day_circ" Alignment="Center" Width="50%" Height="50%" Color="#fff" ><Stroke Width="1" Color="Black" /></Circle>
-
-								<WhileString Source="{}" Value="Inco">	
-									<Change Target="day_circ.Color" Value="Traffic.G" />
-								</WhileString>
-								<WhileString Source="{}" Value="Comp">	
-									<Change Target="day_circ.Color" Value="Traffic.O" />
-								</WhileString>
-								<WhileString Source="{}" Value="Miss">	
-									<Change Target="day_circ.Color" Value="Traffic.R" />
-								</WhileString>
+								<Rectangle Color="Traffic.G"/>
 							</Each>
 						</Grid>
-						<Rectangle Height="2" Color="Black" />
-					</StackPanel>
-
-					<Panel Width="65" Height="65">
-						<Rectangle ux:Name="tr_sq" Color="Traffic.G" Aspect="1" BoxSizing="FillAspect" />
-						<Circle ux:Name="tr_circ" Alignment="Center" Width="35%" Height="35%" Color="#fff" ><Stroke Width="2" Color="White" /></Circle>
-
-						<WhileTrue Value="{comp}">	
-							<Change Target="tr_circ.Color" Value="Traffic.G" />
-						</WhileTrue>
 					</Panel>
-
-				</Grid>
+				</DockPanel>
 			</Panel>
 		</Each>
 	</StackPanel>

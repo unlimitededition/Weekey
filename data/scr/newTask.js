@@ -52,11 +52,10 @@ NewTask.create_Event = function(tas, day, dur)
 		task: tas,
 		days: day,
 		dayList: dayList,
-		duration: durationString,
-		fin: false,
+		duration: durationString, // TODO: Remove to intagers
 		urgent: 0, //0 = not Urgent, 1 = Priority, 2 = Urgent
-		comp: false,
-		exp: false
+		incomplete: true,
+		expired: false
 	}
 
 	return taskEvent;

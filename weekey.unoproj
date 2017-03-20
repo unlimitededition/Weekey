@@ -7,7 +7,6 @@
   "Includes": [
     "*",
     "HomeScreen.uno",
-    "data/fnt/*.otf",
     "data/fnt/*.ttf",
     "data/gui/*.png:Bundle",
     "data/scr/*.js:Bundle",
