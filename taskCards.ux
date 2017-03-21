@@ -8,18 +8,21 @@
 
 				<DockPanel>
 					<Rectangle ux:Name="trafficLight" Dock="Left" Color="White" Width="4">
-						<WhileString Value="{urgent}" Equals="0"><Change trafficLight.Color="TrafficG" /></WhileString>
-						<WhileString Value="{urgent}" Equals="1"><Change trafficLight.Color="TrafficO" /></WhileString>
-						<WhileString Value="{urgent}" Equals="2"><Change trafficLight.Color="TrafficR" /></WhileString>
+						<WhileString Value="{urgent}" Equals="0"><Set trafficLight.Color="TrafficG" /></WhileString>
+						<WhileString Value="{urgent}" Equals="1"><Set trafficLight.Color="TrafficO" /></WhileString>
+						<WhileString Value="{urgent}" Equals="2"><Set trafficLight.Color="TrafficR" /></WhileString>
 					</Rectangle>
 					<Rectangle Color="White" Opacity="0.45">
-						<Text Alignment="VerticalCenter" Font="Main" Value="{task}" FontSize="24" Margin="8" />
-
+						<Text Alignment="VerticalCenter" Font="Main" Value="{task}" FontSize="24" Margin="8" TextTruncation="Standard" ClipToBounds="true"/>
 					</Rectangle>
-					<Panel Dock="Right" Width="8" Margin="4,0,0,0" >
+					<Panel Dock="Right">
 						<Grid ColumnCount="{days}">
 							<Each Items="{dayList}">
-								<Rectangle Color="TrafficG"/>
+								<Rectangle ux:Name="dayLight" Color="Black" Width="8" Margin="4,0,0,0">
+									<WhileString Value="{}" Equals="Inco"><Set dayLight.Color="White" /></WhileString>
+									<WhileString Value="{}" Equals="Comp"><Set dayLight.Color="Green" /></WhileString>
+									<WhileString Value="{}" Equals="Miss"><Set dayLight.Color="White" /></WhileString>
+								</Rectangle>
 							</Each>
 						</Grid>
 					</Panel>

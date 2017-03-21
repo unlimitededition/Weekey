@@ -8,7 +8,7 @@
 			<Grid Columns="1*,Auto">
 				<Panel>
 					<Rectangle Width="2" Alignment="Left" Color="#5276CA" />
-					<TextInput ux:Name="newTaskTitle" Font="Main" PlaceholderText="New Task" PlaceholderColor="#ccc" TextColor="#333" FontSize="28" MinHeight="65" Alignment="Left" Margin="0,0,8,0" Padding="8,0,0,0" TextWrapping="Wrap" MaxLength="24" Value="{taskInput}" />
+					<TextInput ux:Name="newTaskTitle" Font="Main" PlaceholderText="New Task" PlaceholderColor="#ccc" TextColor="#333" FontSize="28" MinHeight="65" Alignment="Left" Margin="0,0,8,0" Padding="8,0,0,0" Value="{taskInput}" TextTruncation="Standard" ClipToBounds="true"/>
 			    </Panel>
 			    <Circle  Width="100" Height="100" Color="#ccc" Clicked="{addDay}">
 			    	<DropShadow ux:Name="dropShadow" Color="#999" Distance="4" Size="4" Angle="135" />
@@ -65,7 +65,7 @@
 			<Change this.newTabText="Create New Task" />
 		</State>
 		<State ux:Binding="Loading">
-			<Change createNew.MinHeight="200" Duration="0" DurationBack="0.3" Easing="CircularIn" />
+			<Change createNew.MinHeight="215" Duration="0" DurationBack="0.3" Easing="CircularIn" />
 			<Change this.newTabText="Create New Task" />
 		</State>
 	</PullToReload>

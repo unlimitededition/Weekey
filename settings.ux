@@ -7,6 +7,10 @@
 		<Panel>
 			<Text Font="Main" Alignment="Left" Color="#fff" FontSize="20" >View Intro</Text>
 		</Panel>
+		<Panel Height="25" Clicked="{saveToDisk}">
+			<Text Font="Main" Alignment="Left" Color="#fff" FontSize="20" >Save Tasks</Text>
+			<Rectangle Alignment="Right" Color="#183A6F" Aspect="1" BoxSizing="FillAspect" ><Stroke Width="2" Color="White" /></Rectangle>
+		</Panel>
 		<Panel Height="25" Clicked="{delTasks}">
 			<Text Font="Main" Alignment="Left" Color="#fff" FontSize="20" >Clear Tasks</Text>
 			<Rectangle Alignment="Right" Color="#183A6F" Aspect="1" BoxSizing="FillAspect" ><Stroke Width="2" Color="White" /></Rectangle>
