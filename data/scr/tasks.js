@@ -1,13 +1,15 @@
 var Obs = require("FuseJS/Observable");
 var Wk = require("data/scr/week.js");
-var Sv = require("data/scr/save.js");
 var Sto = require("FuseJS/Storage");
 
 var Tasks = {};
 module.exports = Tasks;
 
 var today = new Date().getDay();
-var taskFile = "tasks.js";
+var now = new Date().getTime();
+var week = Wk.getWeek(new Date());
+var timeFile = "time";
+var taskFile = "tasks";
 var loaded = false;
 
 var taskList = Obs();
@@ -26,7 +28,7 @@ function Task(tas, day, dur){  //TODO: (f)Init date,
     this.days = day;
     this.duration = dur;
     this.dayList = [];
-    this.urgent = Obs(0);
+    this.urgent = Obs("0");
     this.complete = Obs(false);
     this.expired = false;
 }
@@ -46,17 +48,17 @@ function createTask(){
         console.log("DayList " + newTask.dayList.length);
 
         if(newTask.complete == true){
-            newTask.urgent.value = 0;
+            newTask.urgent.value = "0";
         } else {
             var rem = newTask.days - (7 - today);
             if(rem > 2){
-                 newTask.urgent.value = 0;
+                 newTask.urgent.value = "0";
             }
             if(rem >= 2 && rem <= 1){
-                newTask.urgent.value = 1;
+                newTask.urgent.value = "1";
             }
             if(rem == 0){
-                newTask.urgent.value = 2;
+                newTask.urgent.value = "2";
             }
         }
 
@@ -64,21 +66,23 @@ function createTask(){
 
         taskList.add(newTask);
         taskInput.value = "";
+        saveToDisk();
     }
 }
 
 function completeTask(event){//TODO: Update daylist Array
     for(var i = 0; i < event.data.dayList.length; i++)
     {
-       if(event.data.dayList[i].value == "Inco" && !event.data.comp)
-       {
+       if(event.data.dayList[i].value == "Inco" && !event.data.comp){
            event.data.dayList[i].value = "Comp";
            event.data.complete.value = true;
            event.data.urgent.value = 0;
 
            break;
-       }
+        }
     }
+
+    saveToDisk();
 }
 
 function saveToDisk(){
@@ -134,10 +138,56 @@ function readFromDisk()
             }
 
             taskList.add(tmpObserve);
+            updateTasks(); //Updates Tasks
         }
     }, function(error) {
-        console.log("Couldn't Read Data: " + taskFile);
+        console.log("Couldn't Read Data: " + taskFile + " - " + error);
     });
+}
+
+function updateTasks(){
+    Sto.read(timeFile).then(function(content)
+    {
+        content = JSON.parse(content);
+        updatingTasks(content);
+    }, function(error) {
+        var emergencyTime = {
+            now: now,
+            today: today,
+            week: week
+        };
+
+        saveData(timeFile, JSON.stringify(emergencyTime));
+        console.log("Couldn't Read Data: " + timeFile + " - " + error);
+    });
+}
+function updatingTasks(lastTime){
+    if(lastTime.week < week){ //TODO
+        console.log("Hi");
+    } else if(lastTime.today < today){
+
+
+    } else if(lastTime.now < now){ //for(var i = 0; i < taskList.length; i++)
+        for(var i = 0; i < taskList.length; i++){
+            console.log("Is reset: " + taskList.getAt(i).dayList.length);
+dance:
+            if(taskList.getAt(i).complete.value == false){
+                for(var ij = 0; ij < taskList.getAt(i).dayList.length; ij++){
+                    if(taskList.getAt(i).dayList[ij].value == "Inco"){
+                        taskList.getAt(i).dayList[ij].value = "Miss";
+                        console.log("Task Missed");
+                        break dance;
+                    }
+                }
+            }
+            taskList.getAt(i).complete.value = false;
+        }
+
+        console.log("Hi Again!!!");
+    }
+
+    saveToDisk();
+    saveData(timeFile, JSON.stringify(emergencyTime));
 }
 
 function saveData(dataOutLoc, dataOut){
@@ -150,10 +200,9 @@ function saveData(dataOutLoc, dataOut){
     });
 }
 
-
 function arrangeTasks()
 {
-    Wk.getWeek(new Date());
+    
 }
 
 function dayCheck()
@@ -171,7 +220,8 @@ function deleteTask(event){
 }
 
 function clearTasks(){
-    taskList.clear()
+    taskList.clear();
+    saveToDisk();
 }
 
 function addDay() //TODO: Condense

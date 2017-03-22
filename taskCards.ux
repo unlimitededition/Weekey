@@ -1,16 +1,35 @@
 <Panel ux:Class="taskCards">
 	<StackPanel ux:Name="taskFields" Padding="12,0,12,0">
 		<Each Items="{taskList}">
-			<Panel Height="65" Margin="0,8,0,8">
+			<Panel ux:Name="taskCardPanel" Height="65" Margin="0,8,0,8">
 				<DoubleClicked>
 					<Callback Handler="{completeTask}"/>
 				</DoubleClicked>
 
+				<SwipeGesture ux:Name="swipe_r" Direction="Right" Length="25" Type="Simple" />
+				<SwipeGesture ux:Name="swipe_l" Direction="Left" Length="25" Type="Simple" />
+			    <Swiped Source="swipe_r">
+			    	<Set delAnim.TargetProgress="1"/>
+			       	<Toggle Target="delToggle" IsActive="true"/>
+			    </Swiped>
+			    <Swiped Source="swipe_l">
+			    	<Set delAnim.TargetProgress="0"/>
+			       	<Toggle Target="delToggle" IsActive="true"/>
+			    </Swiped>
+
 				<DockPanel>
-					<Rectangle ux:Name="trafficLight" Dock="Left" Color="White" Width="4">
-						<WhileString Value="{urgent}" Equals="0"><Set trafficLight.Color="TrafficG" /></WhileString>
-						<WhileString Value="{urgent}" Equals="1"><Set trafficLight.Color="TrafficO" /></WhileString>
-						<WhileString Value="{urgent}" Equals="2"><Set trafficLight.Color="TrafficR" /></WhileString>
+					<Rectangle ux:Name="trafficLight" Dock="Left" MinWidth="4">
+						
+						<Timeline ux:Name="delAnim">
+							<Change trafficLight.MinWidth="{ReadProperty taskCardPanel.Height}" Duration="0.1"/>
+							<Change trafficLight.Color="Black"/>
+						</Timeline>
+
+						<WhileTrue ux:Name="delToggle">
+						</WhileTrue>
+						<WhileString Value="{urgent}" Equals="0"><Set trafficLight.Color="TrafficG"/></WhileString>
+						<WhileString Value="{urgent}" Equals="1"><Set trafficLight.Color="TrafficO"/></WhileString>
+						<WhileString Value="{urgent}" Equals="2"><Set trafficLight.Color="TrafficR"/></WhileString>
 					</Rectangle>
 					<Rectangle Color="White" Opacity="0.45">
 						<Text Alignment="VerticalCenter" Font="Main" Value="{task}" FontSize="24" Margin="8" TextTruncation="Standard" ClipToBounds="true"/>
@@ -21,7 +40,7 @@
 								<Rectangle ux:Name="dayLight" Color="Black" Width="8" Margin="4,0,0,0">
 									<WhileString Value="{}" Equals="Inco"><Set dayLight.Color="White" /></WhileString>
 									<WhileString Value="{}" Equals="Comp"><Set dayLight.Color="Green" /></WhileString>
-									<WhileString Value="{}" Equals="Miss"><Set dayLight.Color="White" /></WhileString>
+									<WhileString Value="{}" Equals="Miss"><Set dayLight.Color="Red" /></WhileString>
 								</Rectangle>
 							</Each>
 						</Grid>

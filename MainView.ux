@@ -11,9 +11,9 @@
 	<!-- Main Application -->
 	<Font ux:Global="Main" File="data/fnt/Brandon_light.otf" />
 
-	<StatusBarBackground Dock="Top" />
-
 	<DockPanel ux:Name="mainView" Background="#183A6F">
+		<StatusBarBackground Dock="Top" />
+		
 		<ScrollView ux:Name="mainViewScroller" SnapMinTransform="false" SnapMaxTransform="false">
 			<ScrollViewMotion GotoEasing="Linear" GotoDuration="0.5"/>
 			<DockPanel>

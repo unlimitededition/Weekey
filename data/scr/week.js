@@ -40,3 +40,5 @@ function getWeek(getdate)
      
     return w; 
 }
+
+module.exports = { getWeek: getWeek }
