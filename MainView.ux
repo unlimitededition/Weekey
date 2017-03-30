@@ -11,7 +11,7 @@
 	<!-- Main Application -->
 	<Font ux:Global="Main" File="data/fnt/Brandon_light.otf" />
 
-	<DockPanel ux:Name="mainView" Background="#183A6F">
+	<DockPanel ux:Name="mainView">
 		<StatusBarBackground Dock="Top" />
 		
 		<ScrollView ux:Name="mainViewScroller" SnapMinTransform="false" SnapMaxTransform="false">
@@ -30,26 +30,27 @@
 
 				<taskCards/>
 
-				<settings Dock="Bottom"/>
 			</DockPanel>
 		</ScrollView>
-		<Panel Width="1000" Height="1000" X="-160%" Y="-50%" Opacity="0.35">
-			<WhileVisible><Spin Frequency="0.01" /></WhileVisible>
-			<Grid ColumnCount="2" RowCount="2">
-				<bg_ring><Rotation Degrees="270"/></bg_ring>
-				<bg_ring><Rotation Degrees="0"/></bg_ring>
-				<bg_ring><Rotation Degrees="180"/></bg_ring>
-				<bg_ring><Rotation Degrees="90"/></bg_ring>
-			</Grid>
-			<Panel ux:Class="bg_ring">
-				<Image File="data/img/weekey_circ-02.png" Aspect="1"/>
-			</Panel>
+		<settings Dock="Bottom"/>
+		
+	</DockPanel>
+	<Panel Width="1000" Height="1000" X="-160%" Y="-50%" Opacity="0.35">
+		<WhileVisible><Spin Frequency="0.01" /></WhileVisible>
+		<Grid ColumnCount="2" RowCount="2">
+			<bg_ring><Rotation Degrees="270"/></bg_ring>
+			<bg_ring><Rotation Degrees="0"/></bg_ring>
+			<bg_ring><Rotation Degrees="180"/></bg_ring>
+			<bg_ring><Rotation Degrees="90"/></bg_ring>
+		</Grid>
+		<Panel ux:Class="bg_ring">
+			<Image File="data/img/weekey_circ-02.png" Aspect="1"/>
 		</Panel>
-		<Rectangle Color="Green">
+	</Panel>
+	<Rectangle Color="Green">
 	    <LinearGradient AngleDegrees="90">
 	        <GradientStop Offset="0" Color="Theme1" />
 	        <GradientStop Offset="1" Color="Theme5" />
 	    </LinearGradient>
 	</Rectangle>
-	</DockPanel>
 </App>

@@ -7,5 +7,5 @@
 
 	<float4 ux:Global="TrafficG" ux:Value="#009946"/> <!-- Components -->
 	<float4 ux:Global="TrafficO" ux:Value="#fba74b"/> <!-- Components -->
-	<float4 ux:Global="TrafficR" ux:Value="#0a7e49"/> <!-- Components -->
+	<float4 ux:Global="TrafficR" ux:Value="#df401a"/> <!-- Components -->
 </Panel>

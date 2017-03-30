@@ -10,27 +10,23 @@
 				<SwipeGesture ux:Name="swipe_l" Direction="Left" Length="25" Type="Simple" />
 			    <Swiped Source="swipe_r">
 			    	<Set delAnim.TargetProgress="1"/>
-			       	<Toggle Target="delToggle" IsActive="true"/>
 			    </Swiped>
 			    <Swiped Source="swipe_l">
 			    	<Set delAnim.TargetProgress="0"/>
-			       	<Toggle Target="delToggle" IsActive="true"/>
 			    </Swiped>
 
 				<DockPanel>
-					<Rectangle ux:Name="trafficLight" Dock="Left" MinWidth="4">
-						
+					<Rectangle ux:Name="trafficLight" Dock="Left" MinWidth="4" Color="White">	
+						<WhileString Value="{urgent}" Equals="Non"><Set trafficLight.Color="TrafficG"/></WhileString>
+						<WhileString Value="{urgent}" Equals="Urg"><Set trafficLight.Color="TrafficO"/></WhileString>
+						<WhileString Value="{urgent}" Equals="Crit"><Set trafficLight.Color="TrafficR"/></WhileString>
+
+
 						<Timeline ux:Name="delAnim">
 							<Change trafficLight.MinWidth="{ReadProperty taskCardPanel.Height}" Duration="0.1"/>
-							<Change trafficLight.Color="Black"/>
 						</Timeline>
-
-						<WhileTrue ux:Name="delToggle">
-						</WhileTrue>
-						<WhileString Value="{urgent}" Equals="0"><Set trafficLight.Color="TrafficG"/></WhileString>
-						<WhileString Value="{urgent}" Equals="1"><Set trafficLight.Color="TrafficO"/></WhileString>
-						<WhileString Value="{urgent}" Equals="2"><Set trafficLight.Color="TrafficR"/></WhileString>
 					</Rectangle>
+
 					<Rectangle Color="White" Opacity="0.45">
 						<Text Alignment="VerticalCenter" Font="Main" Value="{task}" FontSize="24" Margin="8" TextTruncation="Standard" ClipToBounds="true"/>
 					</Rectangle>
@@ -39,8 +35,8 @@
 							<Each Items="{dayList}">
 								<Rectangle ux:Name="dayLight" Color="Black" Width="8" Margin="4,0,0,0">
 									<WhileString Value="{}" Equals="Inco"><Set dayLight.Color="White" /></WhileString>
-									<WhileString Value="{}" Equals="Comp"><Set dayLight.Color="Green" /></WhileString>
-									<WhileString Value="{}" Equals="Miss"><Set dayLight.Color="Red" /></WhileString>
+									<WhileString Value="{}" Equals="Comp"><Set dayLight.Color="TrafficG" /></WhileString>
+									<WhileString Value="{}" Equals="Miss"><Set dayLight.Color="TrafficR" /></WhileString>
 								</Rectangle>
 							</Each>
 						</Grid>

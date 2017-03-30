@@ -10,18 +10,19 @@
 					<Rectangle Width="2" Alignment="Left" Color="#5276CA" />
 					<TextInput ux:Name="newTaskTitle" Font="Main" PlaceholderText="New Task" PlaceholderColor="#ccc" TextColor="#333" FontSize="28" MinHeight="65" Alignment="Left" Margin="0,0,8,0" Padding="8,0,0,0" Value="{taskInput}" TextTruncation="Standard" ClipToBounds="true"/>
 			    </Panel>
-			    <Circle  Width="100" Height="100" Color="#ccc" Clicked="{addDay}">
-			    	<DropShadow ux:Name="dropShadow" Color="#999" Distance="4" Size="4" Angle="135" />
+			    <Circle Width="100" Height="100" Clicked="{addDay}">
 				    <Grid Columns="Auto, Auto,Auto" Alignment="Center" >
-				    	<Image Width="20" Alignment="Top" File="data/gui/arrow_b.png" StretchMode="Uniform" Opacity="0.5" />
-						<Text Font="Main" Color="#5276CA" FontSize="36" Value="{currentDay}"></Text>
-						<Text Font="Main" Color="#5276CA" FontSize="16">days</Text>
+				    	<!-- <Image Width="20" Alignment="Top" File="data/gui/arrow_b.png" StretchMode="Uniform" Opacity="0.5" /> -->
+						<Text Font="Main" Color="#999" FontSize="36" Value="{currentDay}"></Text>
+						<Text Font="Main" Color="#999" FontSize="16">days</Text>
 					</Grid>
+					<Stroke Width="2" Color="#5276CA"/>
 				</Circle>
 			</Grid>
 			<Grid Columns="1*, 1*" Margin="0,16,0,0">
 				<Selection Value="{Property Period}" MaxCount="1" MinCount="1" />
 				<Panel ux:Name="tmpPanel" Height="35" Color="#fff">
+					<Tapped><ToggleSelection /></Tapped>
 					<Selectable Value="0" />
 					<Rectangle Height="2" Alignment="Top" Color="#333" />
 					<Rectangle Height="2" Alignment="Bottom" Color="#333" />
@@ -31,9 +32,9 @@
 						<Change tmpText.Color="#fff" Duration="0.15"/>
 						<Change tmpPanel.Color="#5276CA" Duration="0.15" />
 					</WhileSelected>
-					<Tapped><ToggleSelection /></Tapped>
 				</Panel>
 				<Panel ux:Name="wkPanel" Height="35">
+					<Tapped><ToggleSelection /></Tapped>
 					<Selectable Value="1" />
 					<Rectangle Height="2" Alignment="Top" Color="#333" />
 					<Rectangle Height="2" Alignment="Bottom" Color="#333" />
@@ -43,7 +44,6 @@
 						<Change wkText.Color="#fff" Duration="0.15" />
 						<Change wkPanel.Color="#5276CA" Duration="0.15" />
 					</WhileSelected>
-					<Tapped><ToggleSelection /></Tapped>
 				</Panel>
 			</Grid>
 			<Panel Height="35" Clicked="{createTask}" >
