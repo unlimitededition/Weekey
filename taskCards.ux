@@ -21,7 +21,6 @@
 						<WhileString Value="{urgent}" Equals="Urg"><Set trafficLight.Color="TrafficO"/></WhileString>
 						<WhileString Value="{urgent}" Equals="Crit"><Set trafficLight.Color="TrafficR"/></WhileString>
 
-
 						<Timeline ux:Name="delAnim">
 							<Change trafficLight.MinWidth="{ReadProperty taskCardPanel.Height}" Duration="0.1"/>
 						</Timeline>
@@ -33,7 +32,7 @@
 					<Panel Dock="Right">
 						<Grid ColumnCount="{days}">
 							<Each Items="{dayList}">
-								<Rectangle ux:Name="dayLight" Color="Black" Width="8" Margin="4,0,0,0">
+								<Rectangle ux:Name="dayLight" Color="White" Width="8" Margin="4,0,0,0">
 									<WhileString Value="{}" Equals="Inco"><Set dayLight.Color="White" /></WhileString>
 									<WhileString Value="{}" Equals="Comp"><Set dayLight.Color="TrafficG" /></WhileString>
 									<WhileString Value="{}" Equals="Miss"><Set dayLight.Color="TrafficR" /></WhileString>

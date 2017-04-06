@@ -28,7 +28,7 @@ function Task(tas, day, dur){  //TODO: (f)Init date,
     this.days = day;
     this.start = today;
     this.duration = dur;
-    this.dayList = [];
+    this.dayList = Obs();
     this.urgent = Obs("9");
     this.complete = Obs(false);
     this.expired = false;
@@ -43,7 +43,7 @@ function createTask(){
         var newTask = new Task(taskInput.value, currentDay.value, period.value);
 
         for(var i = 0; i < newTask.days; i++){
-            newTask.dayList[i] = Obs("Inco");
+            newTask.dayList.add("Non");
         }
 
         if(newTask.complete.value == true){
@@ -69,16 +69,15 @@ function createTask(){
 }
 
 function completeTask(event){//TODO: Update daylist Array
-    for(var i = 0; i < event.data.dayList.length; i++)
-    {
-       if(event.data.dayList[i].value == "Inco" && (event.data.complete.value == false)){
-           event.data.dayList[i].value = "Comp";
-           event.data.complete.value = true;
-           event.data.urgent.value = "Non";
-
-           break;
+    console.log("Complete");
+    event.data.dayList.forEach(function(arg){
+        console.log(arg);
+        if((arg == "Inco") && (event.data.complete.value == false)){
+            arg.value = "Comp";
+            event.data.complete.value = true;
+            event.data.urgent.value = "Non";
         }
-    }
+    });
 
     saveToDisk();
 }
@@ -86,25 +85,25 @@ function completeTask(event){//TODO: Update daylist Array
 function saveToDisk(){
     var dataArray = [];
 
-    for(var j = 0; j < taskList.length; j++){
+    taskList.forEach(function(arg){
         var tmpJson = {
-            id: taskList.getAt(j).id,
-            task: taskList.getAt(j).task,
-            days: taskList.getAt(j).days,
-            start: taskList.getAt(j).start,
-            duration: taskList.getAt(j).duration,
+            id: arg.id,
+            task: arg.task,
+            days: arg.days,
+            start: arg.start,
+            duration: arg.duration,
             dayList: [],
-            urgent: taskList.getAt(j).urgent.value,
-            complete: taskList.getAt(j).complete.value,
-            expired: taskList.getAt(j).expired
+            urgent: arg.urgent.value,
+            complete: arg.complete.value,
+            expired: arg.expired
         };
 
-        for(var jk = 0; jk < taskList.getAt(j).dayList.length; jk++){
-            tmpJson.dayList.push(taskList.getAt(j).dayList[jk].value);
-        }
+        arg.dayList.forEach(function(eachArg){
+            tmpJson.dayList.push(eachArg);
+        });
 
         dataArray.push(tmpJson);
-    }
+    });
 
     saveData(taskFile, JSON.stringify(dataArray));
 }
@@ -123,14 +122,14 @@ function readFromDisk()
                 days: content[l].days,
                 start: content[l].start,
                 duration: content[l].duration,
-                dayList: [],
+                dayList: Obs(),
                 urgent: Obs(content[l].urgent),
                 complete: Obs(content[l].complete),
                 expired: content[l].expired
             };
 
             for(var lm = 0; lm < content[l].dayList.length; lm++){
-                tmpObserve.dayList.push(Obs(content[l].dayList[lm]));
+                tmpObserve.dayList.add(content[l].dayList[lm]);
             }
 
             taskList.add(tmpObserve);
