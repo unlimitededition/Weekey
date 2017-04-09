@@ -22,7 +22,20 @@ if(!loaded){
     loaded = true;
 }
 
-function Task(tas, day, dur){  //TODO: (f)Init date, 
+function runTasks(line){
+
+    switch(line) {
+        case 1:
+            console.log("1");
+            break;
+        case 2:
+            console.log("2");
+            break;
+        default:
+    }
+}
+
+function Task(tas, day, dur){
     this.id = 0; // TODO: Generate ID function (Easy - Increment from last)
     this.task = tas;
     this.days = day;
@@ -43,7 +56,7 @@ function createTask(){
         var newTask = new Task(taskInput.value, currentDay.value, period.value);
 
         for(var i = 0; i < newTask.days; i++){
-            newTask.dayList.add("Non");
+            newTask.dayList.add("Inco");
         }
 
         if(newTask.complete.value == true){
@@ -69,8 +82,8 @@ function createTask(){
 }
 
 function completeTask(event){//TODO: Update daylist Array
-    console.log("Complete");
-    event.data.dayList.forEach(function(arg){
+    console.log("Complete: " +  event.data.dayList.getAt(0));
+    event.data.dayList.forEach(function(arg){// TODO: Map
         console.log(arg);
         if((arg == "Inco") && (event.data.complete.value == false)){
             arg.value = "Comp";
@@ -129,6 +142,7 @@ function readFromDisk()
             };
 
             for(var lm = 0; lm < content[l].dayList.length; lm++){
+                console.log("Day List Adding: " + content[l].dayList[lm]);
                 tmpObserve.dayList.add(content[l].dayList[lm]);
             }
 
