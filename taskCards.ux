@@ -1,52 +1,72 @@
 <Panel ux:Class="taskCards">
 	<StackPanel ux:Name="taskFields" Padding="12,0,12,0">
 		<Each Items="{taskList}">
-			<Panel ux:Name="taskCardPanel" Height="65" Margin="0,8,0,8">
-				<DoubleClicked>
-					<Callback Handler="{completeTask}"/>
-				</DoubleClicked>
+			<Panel Margin="0,8,0,8">
+				<StackPanel ItemSpacing="4">
+					<DoubleClicked>
+						<Callback Handler="{completeTask}"/>
+					</DoubleClicked>
 
-				<SwipeGesture ux:Name="swipe_r" Direction="Right" Length="25" Type="Simple" />
-				<SwipeGesture ux:Name="swipe_l" Direction="Left" Length="25" Type="Simple" />
-			    <Swiped Source="swipe_r">
-			    	<Set delAnim.TargetProgress="1"/>
-			    </Swiped>
-			    <Swiped Source="swipe_l">
-			    	<Set delAnim.TargetProgress="0"/>
-			    </Swiped>
-
-				<DockPanel>
-					<Rectangle ux:Name="trafficLight" Dock="Left" MinWidth="4" Color="White">	
-						<WhileString Value="{urgent}" Equals="Non"><Set trafficLight.Color="TrafficG"/></WhileString>
-						<WhileString Value="{urgent}" Equals="Urg"><Set trafficLight.Color="TrafficO"/></WhileString>
-						<WhileString Value="{urgent}" Equals="Crit"><Set trafficLight.Color="TrafficR"/></WhileString>
-
-						<Timeline ux:Name="delAnim">
-							<Change trafficLight.MinWidth="{ReadProperty taskCardPanel.Height}" Duration="0.1"/>
-						</Timeline>
-					</Rectangle>
-
-					<Rectangle Color="White" Opacity="0.45">
-						<Text Alignment="VerticalCenter" Font="Main" Value="{task}" FontSize="24" Margin="8" TextTruncation="Standard" ClipToBounds="true"/>
-					</Rectangle>
-					<Panel Dock="Right">
-						<Grid ColumnCount="{days}">
-							<Each Items="{dayList}">
-								<Rectangle ux:Name="dayLight" Color="White" Width="8" Margin="4,0,0,0">
-									<WhileString Value="{}" Equals="Inco"><Set dayLight.Color="White" /></WhileString>
-									<WhileString Value="{}" Equals="Comp"><Set dayLight.Color="TrafficG" /></WhileString>
-									<WhileString Value="{}" Equals="Miss"><Set dayLight.Color="TrafficR" /></WhileString>
-								</Rectangle>
-							</Each>
+					<SwipeGesture ux:Name="swipe_r" Direction="Right" Length="25" Type="Simple" />
+					<SwipeGesture ux:Name="swipe_l" Direction="Left" Length="25" Type="Simple" />
+				    <Swiped Source="swipe_r">
+				    	<Set delAnim.TargetProgress="1"/>
+				    </Swiped>
+				    <Swiped Source="swipe_l">
+				    	<Set delAnim.TargetProgress="0"/>
+				    </Swiped>
+					<Grid Height="24" Columns="24,50,Auto,1*">
+						<Rectangle>
+							<Stroke Width="2" Color="TrafficG"/>
+							<Rectangle ux:Name="compSquare" Height="75%" Width="75%" Color="TrafficG" Opacity="0"/>
+							<WhileTrue Value="{complete}" >
+								<Set Target="compSquare.Opacity" Value="1"/>
+							</WhileTrue>
+						</Rectangle>
+						<Rectangle Color="TrafficG" Height="2"/>
+				    	<Rectangle Padding="8,0,8,0" Color="TrafficG">
+							<Stroke Width="2" Color="TrafficG"/>
+							<Text Alignment="Center" Font="Main" Color="White" Value="Weekey" FontSize="12" Margin="4"/>
+				    	</Rectangle>
+						<Grid ux:Class="dayComp" Columns="1*,12" >
+							<bool ux:Property="cellFill"/>
+							<Rectangle Alignment="Center" Width="100%" Color="TrafficG" Height="2"/>
+							<Match Value="{Property cellFill}">
+								<Case Bool="true"><Rectangle Alignment="Center" Height="12" Width="12" Color="TrafficG"><Stroke Width="2" Color="TrafficG"/></Rectangle></Case>
+								<Case Bool="false"><Rectangle Alignment="Center" Height="12" Width="12"><Stroke Width="2" Color="TrafficG"/></Rectangle></Case>
+							</Match>
 						</Grid>
-					</Panel>
-					<Image Dock="Right" File="data/gui/taskCardHole.png" Opacity="0.45" Aspect="1" >
-						<Circle ux:Name="compCirc" Height="65%" Width="65%" Color="White" Opacity="0"><Stroke Color="White" Width="2"/></Circle>
-						<WhileTrue Value="{complete}" >
-							<Set Target="compCirc.Opacity" Value="0.9"/>
-						</WhileTrue>
-					</Image>
-				</DockPanel>
+				    	<Grid ColumnCount="{days}">
+				    		<Each Count="{days} - {daysComp}">
+					    		<dayComp cellFill="false"/>
+					    	</Each>
+					    	<Each Count="{daysComp}">
+					    		<dayComp cellFill="true"/>
+					    	</Each>
+				    	</Grid>
+				    </Grid>
+					<DockPanel ux:Name="taskCardText" Height="65">
+						<Panel ux:Name="trafficLight" Dock="Left" Width="0" ClipToBounds="true">
+							<StackPanel Orientation="Horizontal">
+								<Panel Width="{ReadProperty taskCardText.Height}">
+									<Circle Width="65%" Height="65%" Color="White"><Stroke Width="2" Color="Theme5"/></Circle>		
+								</Panel>
+								<Panel Width="{ReadProperty taskCardText.Height}">
+									<Circle Width="65%" Height="65%" Color="White"><Stroke Width="2" Color="Theme5"/></Circle>		
+								</Panel>
+								<Panel Width="{ReadProperty taskCardText.Height}">
+									<Circle Width="65%" Height="65%" Color="White"><Stroke Width="2" Color="Theme5"/></Circle>		
+								</Panel>
+							</StackPanel>
+							<Timeline ux:Name="delAnim">
+								<Change trafficLight.MinWidth="{ReadProperty taskCardText.Height}" Duration="0.1"/>
+							</Timeline>
+						</Panel>
+						<Rectangle Color="White" Opacity="0.45">
+							<Text Alignment="VerticalCenter" Font="Main" Value="{task}" FontSize="24" Margin="8" TextTruncation="Standard" ClipToBounds="true"/>
+						</Rectangle>
+					</DockPanel>
+				</StackPanel>
 			</Panel>
 		</Each>
 	</StackPanel>

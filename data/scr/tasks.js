@@ -41,7 +41,7 @@ function Task(tas, day, dur){
     this.days = day;
     this.start = today;
     this.duration = dur;
-    this.dayList = Obs();
+    this.daysComp = Obs(0);
     this.urgent = Obs("9");
     this.complete = Obs(false);
     this.expired = false;
@@ -50,14 +50,10 @@ function Task(tas, day, dur){
 function createTask(){
     if(taskInput.value == "")
     {
-        currentDay.value = 1;
+        currentDay.value = 0;
         return;
     } else {
         var newTask = new Task(taskInput.value, currentDay.value, period.value);
-
-        for(var i = 0; i < newTask.days; i++){
-            newTask.dayList.add("Inco");
-        }
 
         if(newTask.complete.value == true){
             newTask.urgent.value = "Non";
@@ -82,17 +78,13 @@ function createTask(){
 }
 
 function completeTask(event){//TODO: Update daylist Array
-    console.log("Complete: " +  event.data.dayList.getAt(0));
-    event.data.dayList.forEach(function(arg){// TODO: Map
-        console.log(arg);
-        if((arg == "Inco") && (event.data.complete.value == false)){
-            arg.value = "Comp";
-            event.data.complete.value = true;
-            event.data.urgent.value = "Non";
-        }
-    });
-
-    saveToDisk();
+    console.log("Complete: " +  event.data);
+    if(!event.data.complete.value && (event.data.daysComp.value < event.data.days))
+    {
+        event.data.complete.value = true;
+        event.data.daysComp.value++;
+        saveToDisk();
+    }
 }
 
 function saveToDisk(){
@@ -105,15 +97,11 @@ function saveToDisk(){
             days: arg.days,
             start: arg.start,
             duration: arg.duration,
-            dayList: [],
+            daysComp: arg.daysComp.value,
             urgent: arg.urgent.value,
             complete: arg.complete.value,
             expired: arg.expired
         };
-
-        arg.dayList.forEach(function(eachArg){
-            tmpJson.dayList.push(eachArg);
-        });
 
         dataArray.push(tmpJson);
     });
@@ -135,65 +123,51 @@ function readFromDisk()
                 days: content[l].days,
                 start: content[l].start,
                 duration: content[l].duration,
-                dayList: Obs(),
+                daysComp: Obs(content[l].daysComp),
                 urgent: Obs(content[l].urgent),
                 complete: Obs(content[l].complete),
                 expired: content[l].expired
             };
 
-            for(var lm = 0; lm < content[l].dayList.length; lm++){
-                console.log("Day List Adding: " + content[l].dayList[lm]);
-                tmpObserve.dayList.add(content[l].dayList[lm]);
-            }
-
             taskList.add(tmpObserve);
-            updateTasks(); //Updates Tasks
         }
+        updateTasks(); //Updates Tasks
     }, function(error) {
         console.log("Couldn't Read Data: " + taskFile + " - " + error);
     });
 }
 
 function updateTasks(){
-    Sto.read(timeFile).then(function(content)
-    {
-        content = JSON.parse(content);
-        updatingTasks(content);
-    }, function(error) {
-        var emergencyTime = { //TODO extract
-            now: now,
-            today: today,
-            week: week
+    var content = Sto.readSync(timeFile);
+
+    if(content == ""){
+        console.log("No Time");
+        var emergencyTime = {
+        now: now,
+        today: today,
+        week: week
         };
 
         saveData(timeFile, JSON.stringify(emergencyTime));
-        console.log("Saving Time File " + timeFile + " - " + error);
-    });
+    }
+    updatingTasks(JSON.parse(content));
 }
 function updatingTasks(lastTime){
     if(lastTime.week < week){ //TODO
         console.log("Hi This Week!!!");
     } else if(lastTime.today < today){
         console.log("Hi Today!!!");
-
-
+        dayCheck();
     } else if(lastTime.now < now){ //for(var i = 0; i < taskList.length; i++)
         console.log("Hi Again!!!");
-        taskList.forEach(function dayUpdate(tas){
-            console.log("Is updated: " + tas.dayList[0].getAt(0)); //Transition phase - Array to Observable or Rebuild Array
-            for(var n = 0; n < tas.dayList.length; n++){
-                var tmpTask = tas.dayList[n].identity();
-                console.log(tmpTask.value);
-                if((tmpTask == "Inco") && (tas.complete.getAt(0) == false)){
-                    tmpTask.value = "Miss";
-                    tas.complete.value = true;
-                }
-            }
-        });
     }
 
     saveToDisk();
     saveData(timeFile, JSON.stringify(emergencyTime));
+}
+
+function emergence(){
+
 }
 
 function saveData(dataOutLoc, dataOut){
@@ -211,9 +185,13 @@ function arrangeTasks()
     
 }
 
-function dayCheck()
-{
-
+function dayCheck(){
+    taskList.forEach(function x(arg){
+        console.log("Is False: " + arg.complete + " | Days Complete: " + arg.daysComp.value + " | event.data.days: " + arg.days);
+        if(arg.daysComp.value != arg.days){
+            arg.complete.value = false;
+        }
+    });
 }
 
 function weekCheck()

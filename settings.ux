@@ -2,9 +2,6 @@
 	<DockPanel>
 		<StackPanel Dock="Bottom" Padding="12" ItemSpacing="12">
 		<Panel>
-			<Text Font="Main" Alignment="Left" Color="#fff" FontSize="20" >Settings</Text>
-		</Panel>
-		<Panel>
 			<Text Font="Main" Alignment="Left" Color="#fff" FontSize="20" >View Intro</Text>
 		</Panel>
 		<Panel Height="25" Clicked="{saveToDisk}">
