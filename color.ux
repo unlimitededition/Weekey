@@ -1,9 +1,13 @@
 <Panel>
-	<float4 ux:Global="Theme1" ux:Value="#FAB37D"/> <!-- Components -->
-	<float4 ux:Global="Theme2" ux:Value="#91819A"/> <!-- Components -->
-	<float4 ux:Global="Theme3" ux:Value="#B48491"/> <!-- Components -->
-	<float4 ux:Global="Theme4" ux:Value="#597998"/> <!-- Components -->
-	<float4 ux:Global="Theme5" ux:Value="#334676"/> <!-- Components -->
+	<float4 ux:Global="Theme1" ux:Value="#ea8648"/> <!-- Components -->
+	<float4 ux:Global="Theme2" ux:Value="#5c6ca8"/> <!-- Components -->
+	<float4 ux:Global="Theme3" ux:Value="#3c286d"/> <!-- Components -->
+	<float4 ux:Global="Theme4" ux:Value="#4fddc8"/> <!-- Components -->
+	<float4 ux:Global="Theme5" ux:Value="#4b3451"/> <!-- Components -->
+
+	<float4 ux:Global="ThemeDark" ux:Value="#333"/> <!-- Components -->
+	<float4 ux:Global="ThemeGrey" ux:Value="#999"/> <!-- Components -->
+	<float4 ux:Global="ThemeLight" ux:Value="#ccc"/> <!-- Components -->
 
 	<float4 ux:Global="TrafficG" ux:Value="#009946"/> <!-- Components -->
 	<float4 ux:Global="TrafficO" ux:Value="#fba74b"/> <!-- Components -->

@@ -5,28 +5,22 @@
 	<!-- JavaScript -->
 	<JavaScript File="main.js" />
 	<JavaScript File="data/scr/tasks.js" />
+	<JavaScript File="data/scr/settings.js" />
 
 	<JavaScript>
-		var Obs = require("FuseJS/Observable");
-        var currentPage = Obs("mainPage");
-
-        module.exports = {
-            currentPage: currentPage
-        };
 	</JavaScript>
 	<!-- Main Application -->
-	<Font ux:Global="Main" File="data/fnt/Brandon_light.otf" />
 
-	<Router ux:Name="router" />
+	<OnBackButton>
+		<HomeScreen Type="CallIntent" />
+	</OnBackButton>
 
-	<PageControl Active="{currentPage}" Orientation="Vertical">
-	    <mainPage />
-	    <Intro/>
+	<Font ux:Global="Main" File="data/fnt/Brandon_light.otf"/>
+
+	<PageControl Active="{mainPage}" Orientation="Vertical" Interaction="None">
+	    <mainPage/>
+	    <secondPage/>
 	</PageControl>
-
-	<Panel ux:Class="Intro">
-		<Rectangle Color="#183A6F"/>
-	</Panel>
 
 	<DockPanel ux:Class="mainPage" ux:Name="mainPage">
 		<StatusBarBackground Dock="Top" />
@@ -34,13 +28,13 @@
 		<ScrollView ux:Name="mainViewScroller" SnapMinTransform="false" SnapMaxTransform="false">
 			<ScrollViewMotion GotoEasing="Linear" GotoDuration="0.5"/>
 			<DockPanel>
-				<createNewTab ux:Name="newTopTab" Dock="Top" Period="{Period}" newTabText="{newTabText}" />
+				<createNewTab ux:Name="newTopTab" Dock="Top" Period="{period}" newTabText="{newTabText}" />
 				
 				<Panel Dock="Top">
 					<Grid Columns="1*, Auto, 1*"  Height="35">
-						<Rectangle Height="2" Width="80%" Alignment="Center" Color="#ccc" />
-						<Text Font="Main" Alignment="Center" Color="#ccc" FontSize="22" Value="{newTabText}"></Text>
-						<Rectangle Height="2" Width="80%" Alignment="Center" Color="#ccc" />
+						<Rectangle Height="2" Width="80%" Alignment="Center" Color="Theme1" />
+						<Text Font="Main" Alignment="Center" Color="Theme1" FontSize="22" Value="{newTabText}"></Text>
+						<Rectangle Height="2" Width="80%" Alignment="Center" Color="Theme1" />
 					</Grid>
 					<Rectangle Color="White" Opacity="0.65"/>
 				</Panel>
@@ -51,6 +45,92 @@
 		</ScrollView>
 		<settings Dock="Bottom"/>
 	</DockPanel>
+
+	<Panel ux:Class="secondPage" ux:Name="secondPage">
+		<PageControl Active="{secondPage}" Orientation="Horizontal" Interaction="None" InactiveState="Disabled">
+			<NavigationMotion GotoDuration="0.1" GotoType="SmoothSnap"/>
+			<intro/>
+			<acheive/>
+			<feed/>
+		</PageControl>
+		<Rectangle Color="#183A6F"/>
+	</Panel>
+
+	<Panel ux:Class="intro" ux:Name="intro">
+		<PageControl Active="{introPage}" Orientation="Horizontal" Interaction="None">
+			<NavigationMotion GotoDuration="0.1" GotoType="SmoothSnap"/>
+			<Panel ux:Name="intro_one">
+				<Panel Alignment="Center" Width="350" Height="50" Clicked="{set_introCycle}">
+					<Text Alignment="Center" Font="Main" Color="ThemeGrey" FontSize="24">Next ></Text>
+					<Rectangle Color="TrafficG"/>
+				</Panel>
+			</Panel>
+			<Panel ux:Name="intro_two">
+				<Panel Alignment="Center" Width="350" Height="50" Clicked="{set_introCycle}">
+					<Text Alignment="Center" Font="Main" Color="ThemeGrey" FontSize="24">Next ></Text>
+					<Rectangle Color="TrafficG"/>
+				</Panel>
+			</Panel>
+			<Panel ux:Name="intro_three">
+				<Panel Alignment="Center" Width="350" Height="50" Clicked="{set_introCycle}">
+					<Text Alignment="Center" Font="Main" Color="ThemeGrey" FontSize="24">Next ></Text>
+					<Rectangle Color="TrafficG"/>
+				</Panel>
+			</Panel>
+			<Panel ux:Name="intro_four">
+				<Panel Alignment="Center" Width="350" Height="50" Clicked="{set_introCycle}">
+					<Text Alignment="Center" Font="Main" Color="ThemeGrey" FontSize="24">Complete!</Text>
+					<Rectangle Color="TrafficG"/>
+				</Panel>
+			</Panel>
+		</PageControl>
+		<Rectangle Color="Theme2"/>
+	</Panel>
+
+	<Panel ux:Class="acheive" ux:Name="acheive">
+		<DockPanel>
+			<WrapPanel Dock="Top" FlowDirection="LeftToRight" Margin="25">
+				<Each Items="{taskList}">
+			    	<Each Count="{daysComp}">
+			    		<Rectangle Color="#00000000" Height="2" Width="20" Margin="4,0,0,0"><Stroke Width="1" Color="White"/><Rectangle Margin="4" Color="Green"/></Rectangle>
+			    	</Each>
+			    	<Each Count="{days} - {daysComp}">
+				    		<Rectangle Color="#00000000" Height="20" Width="20" Margin="4,0,0,0"><Stroke Width="1" Color="White"/></Rectangle>
+				    </Each>
+				</Each>
+			</WrapPanel>
+			<ScrollView ux:Name="acheivmentList" Dock="Fill">
+				<StackPanel ItemSpacing="16" Margin="25">
+					<Each Items="{taskList}">
+						<StackPanel>
+							<Panel Alignment="Left">
+								<Text Alignment="VerticalCenter" Font="Main" Color="Theme3" Value="{task}" FontSize="24" TextTruncation="Standard" ClipToBounds="true"/>
+							</Panel>
+							<StackPanel Orientation="Horizontal" Alignment="Left" ItemSpacing="4">
+								<Each Count="{daysComp}">
+						    		<Rectangle Color="#00000000" Height="20" Width="20"><Stroke Width="1" Color="White"/><Rectangle Margin="4" Color="Green"/></Rectangle>
+						    	</Each>
+					    		<Each Count="{days} - {daysComp}">
+						    		<Rectangle Color="#00000000" Height="20" Width="20"><Stroke Width="1" Color="White"/></Rectangle>
+						    	</Each>
+							</StackPanel>
+							<Rectangle Height="8" Color="#00000000"/>
+							<Rectangle Height="2" Color="White"/>
+						</StackPanel>
+					</Each>
+				</StackPanel>
+			</ScrollView>
+			<Panel Dock="Bottom" Height="50" Clicked="{set_return}">
+				<Text Alignment="VerticalCenter" Font="Main" Color="Theme3" Value="Close" FontSize="24" Margin="8" TextTruncation="Standard" ClipToBounds="true"/>
+				<Rectangle Color="White"/>
+			</Panel>
+		</DockPanel>
+		<Rectangle Color="Theme2"/>
+	</Panel>
+
+	<Panel ux:Class="feed" ux:Name="feed">
+		<Rectangle Color="Red"/>
+	</Panel>
 
 	<Panel ux:Name="BG">
 		<Panel Width="1000" Height="1000" X="-160%" Y="-50%" Opacity="0.35">
@@ -67,8 +147,8 @@
 		</Panel>
 		<Rectangle Color="Green">
 		    <LinearGradient AngleDegrees="90">
-		        <GradientStop Offset="0" Color="Theme1" />
-		        <GradientStop Offset="1" Color="Theme5" />
+		        <GradientStop Offset="0" Color="Theme4" />
+		        <GradientStop Offset="1" Color="Theme4" />
 		    </LinearGradient>
 		</Rectangle>
 	</Panel>

@@ -2,7 +2,7 @@
 	<StackPanel ux:Name="taskFields" Padding="12,0,12,0">
 		<Each Items="{taskList}">
 			<Panel Margin="0,8,0,8">
-				<StackPanel ItemSpacing="4">
+				<StackPanel ItemSpacing="0">
 					<DoubleClicked>
 						<Callback Handler="{completeTask}"/>
 					</DoubleClicked>
@@ -23,17 +23,39 @@
 								<Set Target="compSquare.Opacity" Value="1"/>
 							</WhileTrue>
 						</Rectangle>
-						<Rectangle Color="TrafficG" Height="2"/>
+
+						<Grid ux:Class="spaceBar" Rows="1*,2,1*">
+							<Rectangle Color="#00000000" />
+							<Rectangle Color="TrafficG" />
+							<Rectangle Color="White" Opacity="0.5"/>
+						</Grid>
+
+						<spaceBar/>
+
 				    	<Rectangle Padding="8,0,8,0" Color="TrafficG">
 							<Stroke Width="2" Color="TrafficG"/>
-							<Text Alignment="Center" Font="Main" Color="White" Value="Weekey" FontSize="12" Margin="4"/>
+							<Match Value="{duration}">
+								<Case Number="1"><Text Alignment="Center" Font="Main" Color="White" Value="Weekey" FontSize="12" Margin="4"/></Case>
+								<Case Number="0"><Text Alignment="Center" Font="Main" Color="White" Value="Temp" FontSize="12" Margin="4"/></Case>
+							</Match>
 				    	</Rectangle>
+
 						<Grid ux:Class="dayComp" Columns="1*,12" >
 							<bool ux:Property="cellFill"/>
-							<Rectangle Alignment="Center" Width="100%" Color="TrafficG" Height="2"/>
+							<spaceBar/>
+
+							<Panel ux:Class="spaceCell">
+								<float4 ux:Property="filled"/>
+								<Grid Rows="1*,12,1*">
+									<Rectangle Color="#00000000" />
+									<Rectangle Alignment="Center" Height="12" Width="12" Color="{Property filled}"><Stroke Width="2" Color="TrafficG"/></Rectangle>
+									<Rectangle Color="White" Opacity="0.5"/>
+								</Grid>
+							</Panel>
+
 							<Match Value="{Property cellFill}">
-								<Case Bool="true"><Rectangle Alignment="Center" Height="12" Width="12" Color="TrafficG"><Stroke Width="2" Color="TrafficG"/></Rectangle></Case>
-								<Case Bool="false"><Rectangle Alignment="Center" Height="12" Width="12"><Stroke Width="2" Color="TrafficG"/></Rectangle></Case>
+								<Case Bool="true"><spaceCell filled="TrafficG"/></Case>
+								<Case Bool="false"><spaceCell filled="#00000000"/></Case>
 							</Match>
 						</Grid>
 				    	<Grid ColumnCount="{days}">
@@ -45,16 +67,21 @@
 					    	</Each>
 				    	</Grid>
 				    </Grid>
+				    <Panel Width="100%" Height="4" Color="White" Opacity="0.25"/>
+				    <Panel Width="100%" Height="2" Color="White" Opacity="0.5"/>
 					<DockPanel ux:Name="taskCardText" Height="65">
 						<Panel ux:Name="trafficLight" Dock="Left" Width="0" ClipToBounds="true">
 							<StackPanel Orientation="Horizontal">
 								<Panel Width="{ReadProperty taskCardText.Height}">
-									<Circle Width="65%" Height="65%" Color="White"><Stroke Width="2" Color="Theme5"/></Circle>		
+									<Image File="data/gui/more-2.png" Width="35%" Height="35%"/>
+									<Circle Width="65%" Height="65%" Color="White"><Stroke Width="2" Color="Theme5"/></Circle>
 								</Panel>
 								<Panel Width="{ReadProperty taskCardText.Height}">
+									<Image File="data/gui/edit.png" Width="35%" Height="35%"/>
 									<Circle Width="65%" Height="65%" Color="White"><Stroke Width="2" Color="Theme5"/></Circle>		
 								</Panel>
-								<Panel Width="{ReadProperty taskCardText.Height}">
+								<Panel Width="{ReadProperty taskCardText.Height}" Clicked="{deleteTask}">
+									<Image File="data/gui/garbage-1.png" Width="35%" Height="35%"/>
 									<Circle Width="65%" Height="65%" Color="White"><Stroke Width="2" Color="Theme5"/></Circle>		
 								</Panel>
 							</StackPanel>
@@ -62,8 +89,8 @@
 								<Change trafficLight.MinWidth="{ReadProperty taskCardText.Height}" Duration="0.1"/>
 							</Timeline>
 						</Panel>
-						<Rectangle Color="White" Opacity="0.45">
-							<Text Alignment="VerticalCenter" Font="Main" Value="{task}" FontSize="24" Margin="8" TextTruncation="Standard" ClipToBounds="true"/>
+							<Text Alignment="VerticalCenter" Font="Main" Color="Theme3" Value="{task}" FontSize="24" Margin="8" TextTruncation="Standard" ClipToBounds="true"/>
+							<Rectangle Color="White" Opacity="0.45">
 						</Rectangle>
 					</DockPanel>
 				</StackPanel>

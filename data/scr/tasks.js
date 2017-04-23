@@ -20,6 +20,7 @@ var period = Obs(0);
 if(!loaded){
     readFromDisk();
     loaded = true;
+    console.log("Tasks Loaded!");
 }
 
 function runTasks(line){
@@ -50,7 +51,7 @@ function Task(tas, day, dur){
 function createTask(){
     if(taskInput.value == "")
     {
-        currentDay.value = 0;
+        currentDay.value = 1;
         return;
     } else {
         var newTask = new Task(taskInput.value, currentDay.value, period.value);
@@ -142,13 +143,7 @@ function updateTasks(){
 
     if(content == ""){
         console.log("No Time");
-        var emergencyTime = {
-        now: now,
-        today: today,
-        week: week
-        };
-
-        saveData(timeFile, JSON.stringify(emergencyTime));
+        emergencyTime();
     }
     updatingTasks(JSON.parse(content));
 }
@@ -163,11 +158,18 @@ function updatingTasks(lastTime){
     }
 
     saveToDisk();
-    saveData(timeFile, JSON.stringify(emergencyTime));
+    emergencyTime();
 }
 
-function emergence(){
+function emergencyTime(){
 
+    var emergencyTime = {
+        now: now,
+        today: today,
+        week: week
+        };
+
+    saveData(timeFile, JSON.stringify(emergencyTime));
 }
 
 function saveData(dataOutLoc, dataOut){
@@ -180,8 +182,7 @@ function saveData(dataOutLoc, dataOut){
     });
 }
 
-function arrangeTasks()
-{
+function arrangeTasks(){
     
 }
 
@@ -194,18 +195,22 @@ function dayCheck(){
     });
 }
 
-function weekCheck()
-{
+function weekCheck(){
 
 }
 
 function deleteTask(event){
     taskList.tryRemove(event.data);
+    saveToDisk();
 }
 
 function clearTasks(){
     taskList.clear();
     saveToDisk();
+}
+
+function updateTime(){
+    emergencyTime();
 }
 
 function addDay() //TODO: Condense
@@ -219,6 +224,7 @@ function addDay() //TODO: Condense
 
 module.exports = {
 
+    updateTime: updateTime,
     saveToDisk: saveToDisk,
     addDay: addDay,
     taskList: taskList,

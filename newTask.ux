@@ -3,53 +3,64 @@
 	<int ux:Property="Period" />
 	<string ux:Property="newTabText" />
 
-	<Panel ux:Name="createNew" Background="#fff" Dock="Top" Height="0" MinHeight="0" Padding="12">
+	<Panel ux:Name="createNew" Background="White" Dock="Top" Height="0" MinHeight="0" Padding="12">
 		<StackPanel>
 			<Grid Columns="1*,Auto">
 				<Panel>
-					<Rectangle Width="2" Alignment="Left" Color="#5276CA" />
-					<TextInput ux:Name="newTaskTitle" Font="Main" PlaceholderText="New Task" PlaceholderColor="#ccc" TextColor="#333" FontSize="28" MinHeight="65" Alignment="Left" Margin="0,0,8,0" Padding="8,0,0,0" Value="{taskInput}" TextTruncation="Standard" ClipToBounds="true"/>
+					<Rectangle ux:Name="textBlinker" Width="2" Alignment="Left" Color="Theme2" Opacity="1"/>
+					<TextInput ux:Name="newTaskTitle" Font="Main" PlaceholderText="New Task" PlaceholderColor="ThemeLight" CaretColor="White" TextColor="ThemeDark" FontSize="28" MinHeight="65" Alignment="Left" Margin="0,0,8,0" Padding="8,0,0,0" Value="{taskInput}" TextTruncation="Standard" ClipToBounds="true">
+						<WhileFocused>
+							<Set newTaskTitle.Value=""/>
+							<Cycle Target="textBlinker.Opacity" Low="0" High="1" Frequency="0.75"/>
+						</WhileFocused>
+					</TextInput>
 			    </Panel>
-			    <Circle Width="100" Height="100" Clicked="{addDay}">
+			    <Circle Width="100" Height="100" Clicked="{addDay}" HitTestMode="LocalBounds">
+			    	<WhileString Compare="{taskInput}" Equals="">
+						<Change logoImage.Opacity="1" Duration="0.25" DurationBack="0.15"/>
+					</WhileString>
+					<Image ux:Name="logoImage" Height="101%" Width="101%" File="data/img/logo1.limeClear.png" Opacity="0"/>
 				    <Grid Columns="Auto, Auto,Auto" Alignment="Center" >
-				    	<!-- <Image Width="20" Alignment="Top" File="data/gui/arrow_b.png" StretchMode="Uniform" Opacity="0.5" /> -->
-						<Text Font="Main" Color="#999" FontSize="36" Value="{currentDay}"></Text>
-						<Text Font="Main" Color="#999" FontSize="16">days</Text>
+						<Text Font="Main" Color="ThemeGrey" FontSize="36" Value="{currentDay}"></Text>
+						<Text Font="Main" Color="ThemeGrey" FontSize="16">days</Text>
 					</Grid>
-					<Stroke Width="2" Color="#5276CA"/>
+					<Stroke Width="2" Color="Theme2"/>
 				</Circle>
 			</Grid>
 			<Grid Columns="1*, 1*" Margin="0,16,0,0">
 				<Selection Value="{Property Period}" MaxCount="1" MinCount="1" />
-				<Panel ux:Name="tmpPanel" Height="35" Color="#fff">
+				<Panel ux:Name="tmpPanel" Height="35" Color="White">
 					<Tapped><ToggleSelection /></Tapped>
 					<Selectable Value="0" />
-					<Rectangle Height="2" Alignment="Top" Color="#333" />
-					<Rectangle Height="2" Alignment="Bottom" Color="#333" />
-					<Rectangle Width="1" Alignment="Right" Color="#333" />
-					<Text ux:Name="tmpText" Font="Main" Alignment="Center" Color="#5276CA" FontSize="18">Temporary</Text>
+					<Rectangle Height="2" Alignment="Top" Color="ThemeDark" />
+					<Rectangle Height="2" Alignment="Bottom" Color="ThemeDark" />
+					<Rectangle Width="1" Alignment="Right" Color="ThemeDark" />
+					<Text ux:Name="tmpText" Font="Main" Alignment="Center" Color="Theme2" FontSize="18">Temporary</Text>
 					<WhileSelected>
-						<Change tmpText.Color="#fff" Duration="0.15"/>
-						<Change tmpPanel.Color="#5276CA" Duration="0.15" />
+						<Change tmpText.Color="White" Duration="0.15"/>
+						<Change tmpPanel.Color="Theme2" Duration="0.15" />
 					</WhileSelected>
 				</Panel>
 				<Panel ux:Name="wkPanel" Height="35">
 					<Tapped><ToggleSelection /></Tapped>
 					<Selectable Value="1" />
-					<Rectangle Height="2" Alignment="Top" Color="#333" />
-					<Rectangle Height="2" Alignment="Bottom" Color="#333" />
-					<Rectangle Width="1" Alignment="Left" Color="#333" />
-					<Text  ux:Name="wkText" Font="Main" Alignment="Center" Color="#5276CA" FontSize="18">Weekly</Text>
+					<Rectangle Height="2" Alignment="Top" Color="ThemeDark" />
+					<Rectangle Height="2" Alignment="Bottom" Color="ThemeDark" />
+					<Rectangle Width="1" Alignment="Left" Color="ThemeDark" />
+					<Text  ux:Name="wkText" Font="Main" Alignment="Center" Color="Theme2" FontSize="18">Weekly</Text>
 					<WhileSelected>
-						<Change wkText.Color="#fff" Duration="0.15" />
-						<Change wkPanel.Color="#5276CA" Duration="0.15" />
+						<Change wkText.Color="White" Duration="0.15" />
+						<Change wkPanel.Color="Theme2" Duration="0.15" />
 					</WhileSelected>
 				</Panel>
 			</Grid>
 			<Panel Height="35" Clicked="{createTask}" >
+				<WhileString Compare="{taskInput}" Equals="">
+					<Change createText.Value="Close"/>
+				</WhileString>
 				<Clicked><Change reloader.IsLoading.Value="false" DurationBack="0.5" /></Clicked>
-				<Text Font="Main" Alignment="Center" Color="#5276CA" FontSize="18">Create</Text>
-				<Rectangle Height="2" Alignment="Bottom" Color="#333" />
+				<Text ux:Name="createText" Font="Main" Alignment="Center" Color="Theme2" FontSize="18" Value="Create"/>
+				<Rectangle Height="2" Alignment="Bottom" Color="ThemeDark" />
 			</Panel>
 		</StackPanel>
 	</Panel>

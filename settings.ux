@@ -1,27 +1,32 @@
-<Panel ux:Class="settings" ux:Name="settings" Background="#183A6F" Alignment="Bottom" Height="50" MinHeight="0" ClipToBounds="true">
+<Panel ux:Class="settings" ux:Name="settings" Alignment="Bottom" Height="50" MinHeight="0" ClipToBounds="true">
 	<DockPanel>
 		<StackPanel Dock="Bottom" Padding="12" ItemSpacing="12">
-		<Panel>
-			<Text Font="Main" Alignment="Left" Color="#fff" FontSize="20" >View Intro</Text>
-		</Panel>
-		<Panel Height="25" Clicked="{saveToDisk}">
-			<Text Font="Main" Alignment="Left" Color="#fff" FontSize="20" >Save Tasks</Text>
-			<Rectangle Alignment="Right" Color="#183A6F" Aspect="1" BoxSizing="FillAspect" ><Stroke Width="2" Color="White" /></Rectangle>
-		</Panel>
-		<Panel Height="25" Clicked="{clearTasks}">
-			<Text Font="Main" Alignment="Left" Color="#fff" FontSize="20" >Clear Tasks</Text>
-			<Rectangle Alignment="Right" Color="#183A6F" Aspect="1" BoxSizing="FillAspect" ><Stroke Width="2" Color="White" /></Rectangle>
-		</Panel>
-		<Panel>
-			<Clicked>
-				<Toggle Target="settingsOpen" />
-				<BringIntoView TargetNode="settings" Delay="0.25" />
-			</Clicked>
-			<WhileTrue ux:Name="settingsOpen" Value="false" >
-				<Change settings.MinHeight="250" Duration="0.2" />
-			</WhileTrue>
-			<Text Font="Main" Alignment="BottomCenter" Color="#fff" FontSize="20" >Settings</Text>
-		</Panel>
+			<Panel Height="25" Clicked="{set_progress}">
+				<Text Font="Main" Alignment="Left" Color="White" FontSize="20">View Progress</Text>
+			</Panel>
+			<Panel Height="25" Clicked="{set_intro}">
+				<Text Font="Main" Alignment="Left" Color="White" FontSize="20">View Intro</Text>
+			</Panel>
+			<Panel Height="25" Clicked="{saveToDisk}">
+				<Text Font="Main" Alignment="Left" Color="White" FontSize="20">Save Tasks</Text>
+			</Panel>
+			<Panel Height="25" Clicked="{clearTasks}">
+				<Text Font="Main" Alignment="Left" Color="White" FontSize="20">Clear Tasks</Text>
+			</Panel>
+			<Panel Height="25" Clicked="{updateTime}">
+				<Text Font="Main" Alignment="Left" Color="White" FontSize="20">UpdateTime</Text>
+			</Panel>
+			<Panel>
+				<Clicked>
+					<Toggle Target="settingsOpen" />
+					<BringIntoView TargetNode="settings" Delay="0.25"/>
+				</Clicked>
+				<WhileTrue ux:Name="settingsOpen" Value="false" >
+					<Change settings.MinHeight="1000" Duration="0.2"/>
+				</WhileTrue>
+				<Text Font="Main" Alignment="BottomCenter" Color="White" FontSize="20" >Settings</Text>
+			</Panel>
 		</StackPanel>
 	</DockPanel>
+	<Rectangle Color="Theme2"/>
 </Panel>
